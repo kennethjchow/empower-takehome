@@ -2,7 +2,6 @@ import { GET, POST } from "@/app/api/notes/route";
 import { PrismaClient, ContactMethod } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-// Mock PrismaClient to prevent actual database calls
 jest.mock("@prisma/client", () => {
    const mockPrismaClient = {
       note: {
@@ -14,7 +13,6 @@ jest.mock("@prisma/client", () => {
    };
    return {
       PrismaClient: jest.fn(() => mockPrismaClient),
-      // --- UPDATED: ContactMethod enum reflects lowercase values ---
       ContactMethod: {
          in_person: "in_person",
          phone: "phone",
@@ -24,7 +22,6 @@ jest.mock("@prisma/client", () => {
    };
 });
 
-// Mock Next.js server utilities for NextResponse.json behavior
 jest.mock("next/server", () => {
    const mockNextResponse = {
       json: jest.fn((data, init) => ({
@@ -48,7 +45,6 @@ describe("/api/notes API Tests", () => {
 
    describe("GET /api/notes", () => {
       it("should return a list of notes", async () => {
-         // --- UPDATED: ContactMethod enum usage ---
          const mockNotes = [
             {
                id: "1",
@@ -98,7 +94,7 @@ describe("/api/notes API Tests", () => {
             name: "New Note",
             content: "Content for new note.",
             canvasserName: "John Doe",
-            contactMethod: "in_person", // Lowercase string
+            contactMethod: "in_person",
             followUpNeeded: true,
          };
          const createdNote = {
@@ -119,7 +115,7 @@ describe("/api/notes API Tests", () => {
       });
 
       it("should return 400 if required fields (name or contactMethod) are missing", async () => {
-         const requestBody = { content: "Some content", contactMethod: "email" }; // Missing name
+         const requestBody = { content: "Some content", contactMethod: "email" };
          const mockRequest = {
             json: jest.fn().mockResolvedValue(requestBody),
          } as unknown as NextRequest;

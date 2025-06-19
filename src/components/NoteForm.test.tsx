@@ -7,21 +7,18 @@ jest.mock("@mantine/core", () => ({
    Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
    Textarea: ({ label, id, ...props }: any) => (
       <div>
-         {/* Use htmlFor to link label to input's id */}
          <label htmlFor={id}>{label}</label>
          <textarea id={id} {...props} />
       </div>
    ),
    TextInput: ({ label, id, ...props }: any) => (
       <div>
-         {/* Use htmlFor to link label to input's id */}
          <label htmlFor={id}>{label}</label>
          <input type="text" id={id} {...props} />
       </div>
    ),
    Select: ({ label, data, value, onChange, id, ...props }: any) => (
       <div>
-         {/* Use htmlFor to link label to select's id */}
          <label htmlFor={id}>{label}</label>
          <select
             id={id}
@@ -29,11 +26,9 @@ jest.mock("@mantine/core", () => ({
             onChange={(e) => onChange(e.target.value)}
             {...props}
          >
-            {/* Add an empty option for initial 'Pick one' state if needed */}
             <option value="" disabled hidden>
                Pick one
             </option>
-            {/* Map data prop to HTML options */}
             {data.map((item: { value: string; label: string }) => (
                <option key={item.value} value={item.value}>
                   {item.label}
@@ -49,7 +44,6 @@ global.fetch = jest.fn();
 const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {});
 
 describe("NoteForm", () => {
-   // Clear all mocks before each test to ensure a clean state
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -74,4 +68,6 @@ describe("NoteForm", () => {
       expect(mockAlert).toHaveBeenCalledWith("Contact name, email, and method are required.");
       expect(fetch).not.toHaveBeenCalled();
    });
+
+   //Needs test for successful submission
 });
