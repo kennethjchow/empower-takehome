@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Note {
+  id             Int           @id @default(autoincrement())
+  name           String
+  content        String?
+  canvasserName  String?
+  contactEmail   String?
+  contactMethod  ContactMethod
+  followUpNeeded Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+}
+
+enum ContactMethod {
+  in_person
+  phone
+  email
+  door_hanger
+}
