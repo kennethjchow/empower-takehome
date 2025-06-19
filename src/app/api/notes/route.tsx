@@ -1,9 +1,9 @@
 import { ContactMethod, PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
    try {
       const notes = await prisma.note.findMany({
          orderBy: { createdAt: "desc" },
@@ -15,7 +15,7 @@ export async function GET(request: Request) {
    }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
    try {
       const body = await request.json();
 

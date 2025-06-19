@@ -1,39 +1,77 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MantineProvider } from "@mantine/core";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
 import NoteForm from "./NoteForm";
-import { jest } from "@jest/globals";
 
-global.fetch = jest.fn(() =>
-   Promise.resolve({
-      ok: true,
-      json: () => Promise.resolve({}),
-   })
-) as unknown as typeof fetch;
+jest.mock("@mantine/core", () => ({
+   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+   Textarea: ({ label, id, ...props }: any) => (
+      <div>
+         {/* Use htmlFor to link label to input's id */}
+         <label htmlFor={id}>{label}</label>
+         <textarea id={id} {...props} />
+      </div>
+   ),
+   TextInput: ({ label, id, ...props }: any) => (
+      <div>
+         {/* Use htmlFor to link label to input's id */}
+         <label htmlFor={id}>{label}</label>
+         <input type="text" id={id} {...props} />
+      </div>
+   ),
+   Select: ({ label, data, value, onChange, id, ...props }: any) => (
+      <div>
+         {/* Use htmlFor to link label to select's id */}
+         <label htmlFor={id}>{label}</label>
+         <select
+            id={id}
+            value={value === null ? "" : value}
+            onChange={(e) => onChange(e.target.value)}
+            {...props}
+         >
+            {/* Add an empty option for initial 'Pick one' state if needed */}
+            <option value="" disabled hidden>
+               Pick one
+            </option>
+            {/* Map data prop to HTML options */}
+            {data.map((item: { value: string; label: string }) => (
+               <option key={item.value} value={item.value}>
+                  {item.label}
+               </option>
+            ))}
+         </select>
+      </div>
+   ),
+}));
 
-const renderWithMantine = (ui: React.ReactElement) => {
-   return render(<MantineProvider>{ui}</MantineProvider>);
-};
+global.fetch = jest.fn();
+
+const mockAlert = jest.spyOn(window, "alert").mockImplementation(() => {});
 
 describe("NoteForm", () => {
+   // Clear all mocks before each test to ensure a clean state
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("shows validation alert if required fields are missing", async () => {
-      const onSuccess = jest.fn();
-      window.alert = jest.fn();
+   it("should render all form fields and submit button", () => {
+      render(<NoteForm onSuccess={() => {}} />);
 
-      renderWithMantine(<NoteForm onSuccess={onSuccess} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /submit/i }));
-
-      await waitFor(() => {
-         expect(window.alert).toHaveBeenCalledWith(
-            "Contact name, email, and method are required."
-         );
-      });
-      expect(onSuccess).not.toHaveBeenCalled();
+      expect(screen.getByText("Contact Name")).toBeInTheDocument();
+      expect(screen.getByText("Contact Email")).toBeInTheDocument();
+      expect(screen.getByText("Canvasser Name")).toBeInTheDocument();
+      expect(screen.getByText("Contact Method")).toBeInTheDocument();
+      expect(screen.getByText("Notes")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
    });
 
-   // ... rest of your tests using renderWithMantine ...
+   it("should show an alert if required fields are missing on submit", async () => {
+      render(<NoteForm onSuccess={() => {}} />);
+      const user = userEvent.setup(); // Initialize user-event for simulating user actions
+
+      await user.click(screen.getByRole("button", { name: "Submit" }));
+
+      expect(mockAlert).toHaveBeenCalledWith("Contact name, email, and method are required.");
+      expect(fetch).not.toHaveBeenCalled();
+   });
 });
