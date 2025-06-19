@@ -1,30 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Overview
+
+Sample application to create a canvassing app.
 
 ## Getting Started
 
-First, run the development server:
+First, make sure mysql is installed and running
 
-```bash
-npm run dev
+```
+brew install mysql
+brew services start mysql
+```
+
+Then, run the db-init command to initalize the db and seed the data
+
+```
+make init-db
+```
+
+Finally, start the server
+
+```
+make dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features implemented
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. List of Notes
+2. Create a Note
+3. Added additional fields such as contact name, canvasser, etc.
+4. Added email field with some regex validation
+5. For ease of querying the db, it uses Prisma to easily query the data from the DB
 
-## Learn More
+## Testing
 
-To learn more about Next.js, take a look at the following resources:
+To run the tests for this project run the following command:
 
--  [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--  [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+make test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Where AI was used
 
-## Deploy on Vercel
+-  To create the seed data
+-  The initial scaffolding of the tests
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All else was written by me

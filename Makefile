@@ -22,7 +22,6 @@ init-db:
 	npm run seed
 
 
-
 # Apply migrations then seed
 migrate-seed: migrate seed
 
@@ -31,13 +30,5 @@ dev:
 	npm run dev
 
 # Build Next.js app
-build:
-	npm run build
-
-# Run linter
-lint:
-	npm run lint
-
-# Clean build artifacts
-clean:
-	rm -rf node_modules .next
+test:
+	npm test
