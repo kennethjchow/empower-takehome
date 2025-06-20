@@ -7,7 +7,7 @@ import "mantine-datatable/styles.layer.css";
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from "@mantine/core";
 
 export const metadata = {
-   title: "My Mantine app",
+   title: "Empower Demo App",
    description: "I have followed setup instructions carefully",
 };
 

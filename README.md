@@ -1,6 +1,8 @@
 ## Overview
 
-Sample application to create a canvassing app.
+Sample application to create a canvassing app. Stopped at around 4 hours
+
+The app is deployed, please view the application here: https://empower-takehome-production-0037.up.railway.app
 
 ## Getting Started
 
@@ -32,6 +34,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 3. Added additional fields such as contact name, canvasser, etc.
 4. Added email field with some regex validation
 5. For ease of querying the db, it uses Prisma to easily query the data from the DB
+6. Deployed to a free tier server
 
 ## Testing
 

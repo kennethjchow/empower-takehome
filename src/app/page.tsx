@@ -13,11 +13,11 @@ export default function GettingStartedExample() {
    const fetchNotes = async () => {
       try {
          const res = await fetch(`/api/notes`);
-         if (!res.ok) throw new Error("Failed to fetch job listings");
+         if (!res.ok) throw new Error("Failed to fetch notes");
          const data = await res.json();
          setNotes(data);
       } catch (error) {
-         console.error("Error fetching jobs:", error);
+         console.error("Error fetching notes:", error);
       }
    };
 
@@ -53,8 +53,10 @@ export default function GettingStartedExample() {
                   textAlign: "right",
                },
                { accessor: "name" },
+               { accessor: "contactEmail" },
                { accessor: "canvasserName" },
                { accessor: "contactMethod" },
+               { accessor: "content" },
             ]}
             //  onRowClick={}
          />
