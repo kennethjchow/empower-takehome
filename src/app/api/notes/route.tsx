@@ -19,7 +19,8 @@ export async function POST(request: NextRequest) {
    try {
       const body = await request.json();
 
-      const { name, content, canvasserName, contactMethod, followUpNeeded } = body;
+      const { name, content, canvasserName, contactMethod, followUpNeeded, contactEmail } =
+         body;
 
       if (!name || !contactMethod) {
          return NextResponse.json(
@@ -46,6 +47,7 @@ export async function POST(request: NextRequest) {
             content,
             canvasserName,
             contactMethod,
+            contactEmail,
             followUpNeeded: Boolean(followUpNeeded),
          },
       });

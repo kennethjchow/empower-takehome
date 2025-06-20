@@ -69,6 +69,7 @@ export default function NoteForm({ onSuccess }: { onSuccess: () => void }) {
             canvasserName,
             content,
             contactMethod,
+            contactEmail,
             followUpNeeded: false, // this could be extended as a user option
          }),
       });

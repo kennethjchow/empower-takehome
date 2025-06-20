@@ -92,6 +92,7 @@ describe("/api/notes API Tests", () => {
       it("should create a new note successfully", async () => {
          const requestBody = {
             name: "New Note",
+            contactEmail: "hello@example.com",
             content: "Content for new note.",
             canvasserName: "John Doe",
             contactMethod: "in_person",
